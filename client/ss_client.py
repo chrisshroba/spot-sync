@@ -33,9 +33,9 @@ def start_listening():
             diff = cur_time - start_time
             position = diff.seconds + (diff.microseconds / 1000000.)
 
-            play_url(song_id, position=position)
             global last_url
             last_url = song_id
+            play_url(song_id, position=position)
 
             btpu = datetime.now()
             play_url(song_id, position=position)
