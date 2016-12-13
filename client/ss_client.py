@@ -4,6 +4,8 @@ from requests import get, post
 from sys import argv, stderr
 from client.command import *
 from time import sleep
+import dateutil.parser
+
 
 try:
     client_id = argv[1]
@@ -19,10 +21,18 @@ def start_listening():
     while True:
         # Will block:
         res = get('http://172.27.37.183:8090/get_song/{}'.format(client_id))
+        data = res.json()
+        song_id = data['song']
+        start_time = dateutil.parser.parse(data['start_time'])
         song_id = res.text.strip()
         if 'spotify' in song_id:
             print("Playing song: {}".format(song_id))
-            play_url(song_id)
+
+            cur_time = datetime.now()
+            diff = cur_time-start_time
+            position = diff.seconds + (diff.microseconds / 1000000.)
+
+            play_url(song_id, position=position)
             global last_url
             last_url = song_id
         sleep(.5)
@@ -38,7 +48,8 @@ while True:
         res = post(
             'http://172.27.37.183:8090/set_song/{}'.format(client_id),
             data={
-                'song': url
+                'song': url,
+                'start_time': get_start_time().isoformat()
             }
         )
         last_url = url
