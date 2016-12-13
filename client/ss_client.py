@@ -24,9 +24,9 @@ def start_listening():
 
         if 'spotify' in res.text:
             data = res.json()
+
             song_id = data['song']
             start_time = dateutil.parser.parse(data['start_time'])
-            song_id = res.text.strip()
 
             print("Playing song: {}".format(song_id))
 
@@ -46,6 +46,7 @@ t.start()
 while True:
     url = get_url()
     if last_url != url:
+        print ("Last, cur = {}, {}".format(last_url, url))
         print("Setting song: {}".format(url))
         res = post(
             'http://172.27.37.183:8090/set_song/{}'.format(client_id),
