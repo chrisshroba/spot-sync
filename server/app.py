@@ -42,7 +42,7 @@ def wait_for_song(client_id):
             # client A chose a song, let's send it to client B
             print('{} {}'.format(client, client_id))
             g.db.set('has_set', True)
-            
+
             return song
         time.sleep(.5)
 
