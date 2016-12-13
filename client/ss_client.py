@@ -28,10 +28,11 @@ def start_listening():
 
             print("Playing song: {}".format(song_id))
 
-            play_url(song_id)
-
             global last_url
             last_url = song_id
+
+            play_url(song_id)
+
         sleep(.5)
 
 
