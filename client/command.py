@@ -47,12 +47,15 @@ def get_url():
         'tell application "Spotify" to spotify url of current track as string')
 
 
-def get_start_time():
+def _get_one_start_time():
     cur_time = datetime.now()
     pos = run_sl_applescript('tell application "Spotify" to player position')
     start_time = cur_time + timedelta(seconds=-float(pos))
     return start_time
-    # TODO update this to take the min of a few runs of this
+
+
+def get_start_time():
+    return min([_get_one_start_time() for i in range(3)])
 
 
 def set_player_position(position):
