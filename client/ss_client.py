@@ -21,11 +21,13 @@ def start_listening():
     while True:
         # Will block:
         res = get('http://172.27.37.183:8090/get_song/{}'.format(client_id))
-        data = res.json()
-        song_id = data['song']
-        start_time = dateutil.parser.parse(data['start_time'])
-        song_id = res.text.strip()
-        if 'spotify' in song_id:
+
+        if 'spotify' in res.text:
+            data = res.json()
+            song_id = data['song']
+            start_time = dateutil.parser.parse(data['start_time'])
+            song_id = res.text.strip()
+
             print("Playing song: {}".format(song_id))
 
             cur_time = datetime.now()
