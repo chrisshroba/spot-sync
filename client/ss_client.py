@@ -35,6 +35,14 @@ def start_listening():
             position = diff.seconds + (diff.microseconds / 1000000.)
 
             play_url(song_id, position=position)
+
+            cur_time = datetime.now()
+            diff = cur_time-start_time
+            position = diff.seconds + (diff.microseconds / 1000000.)
+
+            play_url(song_id, position=position)
+
+
             global last_url
             last_url = song_id
         sleep(.5)
