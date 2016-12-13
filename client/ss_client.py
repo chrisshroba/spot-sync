@@ -12,6 +12,8 @@ except IndexError:
     stderr.write('Hint: Use either 1 or 2 for client_id.')
     exit(1)
 
+last_url = None
+
 
 def start_listening():
     while True:
@@ -21,14 +23,14 @@ def start_listening():
         if 'spotify' in song_id:
             print("Playing song: {}".format(song_id))
             play_url(song_id)
+            global last_url
+            last_url = song_id
         sleep(.5)
-
 
 
 t = threading.Thread(target=start_listening, args=())
 t.start()
 
-last_url = None
 while True:
     url = get_url()
     if last_url != url:
