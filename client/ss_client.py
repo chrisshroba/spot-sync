@@ -30,13 +30,13 @@ def start_listening():
 
             song_id = data['song']
 
-            print("Playing song: {}".format(song_id))
 
             global last_url, reset_song
             last_url = song_id
             reset_song = True
-
-            play_url(song_id)
+            if song_id != get_url():
+                print("Playing song: {}".format(song_id))
+                play_url(song_id)
 
         sleep(.5)
 
