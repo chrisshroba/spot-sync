@@ -25,28 +25,13 @@ def start_listening():
             data = res.json()
 
             song_id = data['song']
-            start_time = dateutil.parser.parse(data['start_time'])
 
             print("Playing song: {}".format(song_id))
 
-            cur_time = datetime.now()
-            diff = cur_time - start_time
-            position = diff.seconds + (diff.microseconds / 1000000.)
+            play_url(song_id)
 
             global last_url
             last_url = song_id
-            
-            play_url(song_id, position=position)
-
-            btpu = datetime.now()
-            play_url(song_id, position=position)
-            etpu = datetime.now()
-
-            pu_diff = btpu - etpu
-            position_adjust = pu_diff.seconds + (pu_diff.microseconds / 1000000.)
-
-            play_url(song_id, position=position-position_adjust)
-
         sleep(.5)
 
 
@@ -62,7 +47,6 @@ while True:
             'http://172.27.37.183:8090/set_song/{}'.format(client_id),
             data={
                 'song': url,
-                'start_time': get_start_time().isoformat()
             }
         )
         last_url = url

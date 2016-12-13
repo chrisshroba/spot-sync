@@ -36,10 +36,8 @@ def run_sl_applescript(script):
         return None
 
 
-def play_url(url, position=None):
+def play_url(url):
     run_applescript('tell application "Spotify" to play track"{}"'.format(url))
-    if position:
-        set_player_position(position)
 
 
 def get_url():
@@ -48,6 +46,7 @@ def get_url():
 
 
 def _get_one_start_time():
+    """Doesn't Seem to work well"""
     cur_time = datetime.now()
     pos = run_sl_applescript('tell application "Spotify" to player position')
     start_time = cur_time + timedelta(seconds=-float(pos))
@@ -55,6 +54,7 @@ def _get_one_start_time():
 
 
 def get_start_time():
+    """Doesn't seem to work well"""
     return max([_get_one_start_time() for i in range(3)])
 
 
