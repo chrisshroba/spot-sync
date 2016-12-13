@@ -26,26 +26,49 @@ def root():
     return "Hello world\n"
 
 
-@app.route('/wait_for_song/<client_id>')
-def wait_for_song(client_id):
-    g.db.get('has_set')
-    while True:
-        song = g.db.get('song')
-        client = g.db.get('client')
-        has_set = g.db.get('has_set')
-        print({
-            'song': song,
-            'client': client,
-            'has_set': has_set,
-            'I am': client_id
-        })
-        if client != client_id and not has_set and song is not None:
-            # client A chose a song, let's send it to client B
-            print('{} {}'.format(client, client_id))
-            g.db.set('has_set', True)
+# @app.route('/wait_for_song/<client_id>')
+# def wait_for_song(client_id):
+#     g.db.get('has_set')
+#     while True:
+#         song = g.db.get('song')
+#         client = g.db.get('client')
+#         has_set = g.db.get('has_set')
+#         print({
+#             'song': song,
+#             'client': client,
+#             'has_set': has_set,
+#             'I am': client_id
+#         })
+#         if client != client_id and not has_set and song is not None:
+#             # client A chose a song, let's send it to client B
+#             print('{} {}'.format(client, client_id))
+#             g.db.set('has_set', True)
+#
+#             return song
+#         time.sleep(.5)
 
-            return song
-        time.sleep(.5)
+
+@app.route('/get_song/<client_id>')
+def get_song(client_id):
+    g.db.get('has_set')
+
+    song = g.db.get('song')
+    client = g.db.get('client')
+    has_set = g.db.get('has_set')
+    print({
+        'song': song,
+        'client': client,
+        'has_set': has_set,
+        'I am': client_id
+    })
+    if client != client_id and not has_set and song is not None:
+        # client A chose a song, let's send it to client B
+        print('{} {}'.format(client, client_id))
+        g.db.set('has_set', True)
+
+        return song
+    else:
+        return "None"
 
 
 @app.route('/set_song/<client_id>', methods=['POST'])
@@ -69,5 +92,5 @@ def rest_test():
     }
     return json.dumps(data)
 
-
-app.run(debug=True, host='0.0.0.0', port=8090, threaded=True)
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=8090, threaded=True)
