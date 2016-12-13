@@ -14,9 +14,13 @@ except IndexError:
     exit(1)
 
 last_url = None
-
+reset_song=False
 
 def start_listening():
+    """
+    Retrieve REMOTE song
+    :return:
+    """
     while True:
         # Will block:
         res = get('http://172.27.37.183:8090/get_song/{}'.format(client_id))
@@ -28,8 +32,9 @@ def start_listening():
 
             print("Playing song: {}".format(song_id))
 
-            global last_url
+            global last_url, reset_song
             last_url = song_id
+            reset_song = True
 
             play_url(song_id)
 
@@ -40,8 +45,10 @@ t = threading.Thread(target=start_listening, args=())
 t.start()
 
 while True:
+    """Send LOCAL Song"""
+    reset_song = False
     url = get_url()
-    if last_url != url:
+    if last_url != url and not reset_song:
         print("Last, cur = {}, {}".format(last_url, url))
         print("Setting song: {}".format(url))
         res = post(
