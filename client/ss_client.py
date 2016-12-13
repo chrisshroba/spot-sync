@@ -3,6 +3,7 @@ import threading
 from requests import get, post
 from sys import argv, stderr
 from client.command import *
+from time import sleep
 
 try:
     client_id = argv[1]
@@ -21,6 +22,8 @@ def start_listening():
         song_id = res.text.strip()
         print("Playing song: {}".format(song_id))
         play_url(song_id)
+        sleep(.2)
+
 
 
 t = threading.Thread(target=start_listening, args=())
