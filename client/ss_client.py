@@ -35,6 +35,7 @@ def start_listening():
 
             global last_url
             last_url = song_id
+            
             play_url(song_id, position=position)
 
             btpu = datetime.now()
