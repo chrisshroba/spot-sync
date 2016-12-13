@@ -6,7 +6,6 @@ from client.command import *
 from time import sleep
 import dateutil.parser
 
-
 try:
     client_id = argv[1]
 except IndexError:
@@ -31,17 +30,18 @@ def start_listening():
             print("Playing song: {}".format(song_id))
 
             cur_time = datetime.now()
-            diff = cur_time-start_time
+            diff = cur_time - start_time
             position = diff.seconds + (diff.microseconds / 1000000.)
 
             play_url(song_id, position=position)
-
-            cur_time = datetime.now()
-            diff = cur_time-start_time
-            position = diff.seconds + (diff.microseconds / 1000000.)
-
+            btpu = datetime.now()
             play_url(song_id, position=position)
+            etpu = datetime.now()
 
+            pu_diff = btpu - etpu
+            position_adjust = pu_diff.seconds + (pu_diff.microseconds / 1000000.)
+
+            play_url(song_id, position=position-position_adjust)
 
             global last_url
             last_url = song_id
@@ -54,7 +54,7 @@ t.start()
 while True:
     url = get_url()
     if last_url != url:
-        print ("Last, cur = {}, {}".format(last_url, url))
+        print("Last, cur = {}, {}".format(last_url, url))
         print("Setting song: {}".format(url))
         res = post(
             'http://172.27.37.183:8090/set_song/{}'.format(client_id),
