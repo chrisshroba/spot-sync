@@ -57,4 +57,4 @@ while True:
                 'song': url,
             }
         )
-        last_url = url
+    last_url = url
