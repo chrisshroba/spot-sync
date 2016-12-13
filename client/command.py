@@ -55,7 +55,7 @@ def _get_one_start_time():
 
 
 def get_start_time():
-    return min([_get_one_start_time() for i in range(3)])
+    return max([_get_one_start_time() for i in range(3)])
 
 
 def set_player_position(position):
