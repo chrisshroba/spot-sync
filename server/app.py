@@ -29,15 +29,16 @@ def root():
 @app.route('/wait_for_song/<client_id>')
 def wait_for_song(client_id):
     g.db.get('has_set')
-    while (True):
+    while True:
         song = g.db.get('song')
         client = g.db.get('client')
         has_set = g.db.get('has_set')
-        # print({
-        #     'song': song,
-        #     'client': client,
-        #     'has_set': has_set
-        # })
+        print({
+            'song': song,
+            'client': client,
+            'has_set': has_set,
+            'I am': client_id
+        })
         if client != client_id and not has_set and song is not None:
             # client A chose a song, let's send it to client B
             print('{} {}'.format(client, client_id))

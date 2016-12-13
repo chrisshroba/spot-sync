@@ -15,7 +15,9 @@ except IndexError:
 def start_listening():
     while True:
         # Will block:
+        print("Long polling...")
         res = get('http://172.27.37.183:8090/wait_for_song/{}'.format(client_id))
+        print('Got response!')
         song_id = res.text.strip()
         print("Playing song: {}".format(song_id))
         play_url(song_id)
